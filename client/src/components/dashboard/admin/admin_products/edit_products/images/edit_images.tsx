@@ -43,7 +43,7 @@ const EditImages = () => {
     id, imageUrl: selectedImage, showDialog, data, setProduct, setShowDialog,
   }), [data, id, selectedImage, showDialog, setProduct, setShowDialog]);
 
-  const showRemovalDialog = () => (
+  const showDialogImageToRemove = () => (
     <RemoveImageDialogContext.Provider value={imageDialogValues}>
       <ImageDropDialog />
     </RemoveImageDialogContext.Provider>
@@ -82,7 +82,7 @@ const EditImages = () => {
 
         <DropImageField data={data} handleAddImage={handleAddImage} />
       </div>
-      {showDialog && showRemovalDialog()}
+      {showDialog && showDialogImageToRemove()}
     </div>
   );
 };
