@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        @apply scroll-smooth;
+    }
+    body {
+        @apply m-0 p-0 w-auto h-auto font-sans text-gray-900 bg-black bg-opacity-90;
+    }
+
+    a {
+        @apply text-inherit no-underline;
+    }
+
+    a:hover {
+        @apply text-inherit no-underline;
+    }
+    input:-webkit-autofill {
+        @apply shadow-sm;
+      }
+
+    table {
+        @apply font-sans border-collapse w-screen;
+    }
+}
+
+@layer components {
+    .custom-gradient {
+      --tw-gradient-stops: theme('colors.black'), theme('colors.blue.900'), theme('colors.black');
+      background-image: radial-gradient(ellipse at top left, var(--tw-gradient-stops));
+    }
+
+    @keyframes animated-gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .animated-gradient {
+        background: linear-gradient(270deg,
+          #ff0000 0%,
+          #ff9900 15%,
+          #d2de21 25%,
+          #4fdc4a 30%,
+          #3fdad8 40%,
+          #2fc9e2 50%,
+          #1c7fee 60%,
+          #5f15f2 70%,
+          #ba0cf8 80%,
+          #fb07d9 90%,
+          #ff0000 100%);
+        background-size: 200% 200%;
+        animation: animated-gradient 8s ease infinite;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+    .text-glow {
+        color: #fff;
+        text-shadow: 0 0 10px #00e6e6, 0 0 20px #00e6e6, 0 0 30px #00e6e6, 0 0 40px #00e6e6;
+     }
+  }

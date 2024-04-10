@@ -1,0 +1,4 @@
+.eslintrc.cjs
+global.d.ts
+node_modules/
+client/

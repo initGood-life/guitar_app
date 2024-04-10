@@ -1,0 +1,4 @@
+postcss.config.js
+node_modules/
+tailwind.config.js
+index.html
