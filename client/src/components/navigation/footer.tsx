@@ -40,7 +40,7 @@ const Footer = (): JSX.Element => (
         <div className="font-oswald text-xl font-normal tracking-wider text-white">
           Terms & Conditions
         </div>
-        <div className="container pointer-events-none mt-4 w-56 items-center gap-x-2">
+        <div className="container mt-4 w-56 cursor-default items-center gap-x-2">
           <p className="font-rubik text-sm font-thin text-blue-gray-200">
             “This application was created for training purposes only and does
             not represent any real company or products.”

@@ -14,6 +14,7 @@ export default withMt({
       roboto: ['Roboto', 'sans-serif'],
       monoton: ['Monoton', 'sans-serif'],
     },
+
     extend: {
       colors: {
         brown: {
@@ -55,7 +56,7 @@ export default withMt({
       backgroundImage: {
         'promo': "url('/images/featured/featured_home_3.jpg')",
         'black_guitar': "url('/images/featured/bg_login.jpg')"
-      }
+      },
     },
   },
   plugins: [

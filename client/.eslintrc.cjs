@@ -81,10 +81,11 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
     'no-undef': 'off',
-    "no-spaced-func": 0,
+    'no-spaced-func': 0,
     'no-underscore-dangle': 'off',
     'no-case-declarations': 'off',
     'no-param-reassign': 'off',
+    'react/require-default-props': 'off',
     'linebreak-style': [
       'error', (process.platform === 'win32' ? 'windows' : 'unix'),
     ],
@@ -98,5 +99,6 @@ module.exports = {
     'react/function-component-definition': 'off',
     'react/react-in-jsx-scope': 'off',
     'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
   },
 };

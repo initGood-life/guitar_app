@@ -9,13 +9,14 @@ export interface ProductsResponse {
     name: string;
     description: string;
     website: string;
-  } | string
+  }
   description: string,
   price: number,
   available: number,
   item_sold: number,
   shipping: boolean,
   image: string[],
+  countryOfOrigin: string,
   date: string
 }
 
@@ -85,6 +86,7 @@ export interface ProductByIdResponse {
   available: number;
   item_sold: number;
   shipping: boolean;
+  countryOfOrigin: string;
   image: string[];
   date: string;
 }

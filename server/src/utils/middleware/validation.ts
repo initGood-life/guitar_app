@@ -17,8 +17,8 @@ const productValidator = [
     .isLength({ min: 3 })
     .withMessage('Description can not be less than three characters long')
     .bail()
-    .isLength({ max: 250 })
-    .withMessage('Description can not be more than 250 characters long'),
+    .isLength({ max: 500 })
+    .withMessage('Description can not be more than 500 characters long'),
 
   check('price').trim().notEmpty().withMessage('Price is required')
     .bail()

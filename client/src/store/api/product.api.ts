@@ -43,7 +43,7 @@ export const productApi = createApi({
     addNewProduct: build
       .mutation<ProductsResponse, Partial<ProductArgs>>({
       query: ({
-        price, available, shipping, description, brand, image, model, token = {},
+        price, available, shipping, description, brand, image, model, countryOfOrigin, token = {},
       }) => ({
         url: 'products',
         method: 'POST',
@@ -51,14 +51,14 @@ export const productApi = createApi({
           Authorization: `Bearer ${token}`,
         },
         body: {
-          price, available, shipping, description, brand, image, model,
+          price, available, shipping, description, brand, image, model, countryOfOrigin,
         },
       }),
     }),
     editProduct: build
       .mutation<ProductsResponse, Partial<ProductArgs>>({
       query: ({
-        _id, price, available, shipping, description, brand, model, token = {},
+        _id, price, available, shipping, description, countryOfOrigin, brand, model, token = {},
       }) => ({
         url: `products/product/${_id}`,
         method: 'PATCH',
@@ -66,7 +66,7 @@ export const productApi = createApi({
           Authorization: `Bearer ${token}`,
         },
         body: {
-          price, available, shipping, description, brand, model,
+          price, available, shipping, description, brand, model, countryOfOrigin,
         },
       }),
     }),

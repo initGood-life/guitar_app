@@ -11,13 +11,35 @@ import { selectedItems } from '@/store/features/item.counter.slice';
 import type { ProductType } from '@/types/home.types';
 import { AddToCartMenu, showSwal } from '@/utils';
 
-export const CardBlock: React.FC<ProductType> = ({ product }): JSX.Element => {
+const HighlightText = ({ text, highlight }: {
+  text: string
+  highlight?: string
+}): JSX.Element => {
+  const restrictedHighlight = highlight?.toLowerCase().replace(/\s/g, '');
+  const textToHighlight = text.split(new RegExp(`(${restrictedHighlight})`, 'gi'));
+
+  return (
+    <span>
+      {highlight ? textToHighlight.map((part, index) => (
+
+        part.toLowerCase() === restrictedHighlight ? (
+          // eslint-disable-next-line react/no-array-index-key
+          <mark key={index}>{part}</mark>
+        ) : (
+          part
+        )
+      )) : text}
+    </span>
+  );
+};
+
+export const CardBlock: React.FC<ProductType> = ({ product, searchKeyword }): JSX.Element => {
   const [showAddCart, setShowAddCart] = useState<boolean>(false);
   const itemsInCart = useAppSelector(selectedItems)
     .find((item) => item.id === product._id);
   const isItemInCart = itemsInCart?.cartItem ?? 0;
   const prevQuantity = usePrevious(isItemInCart, 0) ?? 0;
-  const isImage = product.image.length !== 0
+  const imageSrc = product.image.length !== 0
     ? product.image[0]
     : 'images/image_not_available.png';
   const isAvailable = product.available > 0;
@@ -33,24 +55,36 @@ export const CardBlock: React.FC<ProductType> = ({ product }): JSX.Element => {
   };
 
   return (
-    <Card className="flex w-[350px] max-w-sm shrink-0 flex-col bg-white">
-      <CardHeader shadow={false} floated={false} className="h-80 transform-gpu cursor-pointer overflow-hidden shadow-md shadow-blue-gray-900/50 transition-transform duration-500 ease-in-out hover:scale-110">
-        <img src={isImage} alt={product?.model ?? 'no image'} className="h-full w-full rounded-lg object-cover " />
+    <Card className="flex w-[350px] max-w-sm shrink-0 flex-col bg-white/90">
+      <CardHeader
+        shadow={false}
+        floated={false}
+        className="h-80 cursor-pointer overflow-hidden shadow-md shadow-blue-gray-900/50 transition-transform duration-500 ease-in-out"
+      >
+        <img
+          src={imageSrc}
+          alt={product?.model ?? 'no image'}
+          className="size-full object-cover"
+        />
       </CardHeader>
-      <CardBody className="grow">
+      <CardBody className="grow p-3">
         <Typography variant="h3" className="mb-2 text-center font-oswald font-semibold text-gray-800">
           {product?.brand?.name ?? 'Unknown Brand'}
         </Typography>
-        <Typography variant="h6" color="gray" className="mb-2 text-center">
-          {product.model}
+        <Typography
+          variant="h6"
+          color="gray"
+          className="mb-2 text-center"
+        >
+          <HighlightText text={product?.model} highlight={searchKeyword} />
         </Typography>
       </CardBody>
-      <Typography variant="h3" className="pointer-events-none flex items-center justify-center">
+      <Typography variant="h3" className="flex cursor-default items-center justify-center">
         <div className="font-oswald font-semibold tracking-wider text-black">
           $
           {product.price}
         </div>
-        <p className={`${isAvailable ? 'text-green-600' : 'text-red-700'} ml-2 text-left font-rubik text-sm font-normal uppercase`}>
+        <p className={`${isAvailable ? 'text-green-800' : 'text-red-700'} ml-2 text-left font-rubik text-sm font-normal uppercase tracking-wide`}>
           {product.available !== 0 ? 'In stock' : 'Out of stock'}
         </p>
       </Typography>
@@ -76,7 +110,7 @@ export const CardBlock: React.FC<ProductType> = ({ product }): JSX.Element => {
             <div className="flex items-center space-x-2 font-rubik tracking-wider">
               <p className="border-r-1 border-white pr-4 text-lg">Add to Cart</p>
               <AddShoppingCart
-                className={`${isItemInCart ? 'my-icon fill-green-500' : 'my-icon fill-current'} h-8 w-8 transition duration-300 ease-in-out group-hover:rotate-12`}
+                className={`${isItemInCart ? 'my-icon fill-green-500' : 'my-icon fill-current'} size-8 transition duration-300 ease-in-out group-hover:rotate-12`}
               />
             </div>
           </Button>

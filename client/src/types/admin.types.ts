@@ -32,6 +32,7 @@ export interface ProductData {
   item_sold: number;
   shipping: boolean;
   image: string[];
+  countryOfOrigin: string;
   date: string;
 }
 
@@ -82,6 +83,7 @@ export interface HandleSubmitAddProduct {
   description?: string,
   price?: number,
   available?: number,
+  countryOfOrigin?: string,
   image: string[],
   shipping?: boolean,
 }

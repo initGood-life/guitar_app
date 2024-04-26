@@ -1,6 +1,6 @@
 import type { ExtFile } from '@files-ui/react';
 import { Dropzone, FileMosaic } from '@files-ui/react';
-import CloseImageViewIcon from '@icons/close_FILL0_wght400_GRAD0_opsz24.svg?react';
+import CloseImageViewIcon from '@icons/close_icon.svg?react';
 import {
   getDownloadURL,
   ref,
@@ -59,7 +59,6 @@ const ImageDropField = () => {
       const handleUpload = Array.from(images, (image) => handleUploadImage(image));
 
       const promiseResult = await Promise.all(handleUpload);
-      console.log(promiseResult);
 
       await helper.setValue(promiseResult);
     } catch (error) {
@@ -143,7 +142,7 @@ const ImageDropField = () => {
             {imageUploadStatus && (
             <div className="absolute left-4 top-0 grid h-[250px] w-[300px] place-items-center overflow-hidden bg-black/50">
               <svg
-                className="h-16 w-16 animate-spin text-white"
+                className="size-16 animate-spin text-white"
                 viewBox="0 0 64 64"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +181,7 @@ const ImageDropField = () => {
                 e.stopPropagation();
                 setHandlePreview(false);
               }}
-              className="pointer-events-auto absolute right-4 top-0 h-16 w-16 cursor-pointer fill-white transition-colors duration-200 ease-out hover:fill-gray-500"
+              className="pointer-events-auto absolute right-4 top-0 size-16 cursor-pointer fill-white transition-colors duration-200 ease-out hover:fill-gray-500"
             />
           </div>
           )}

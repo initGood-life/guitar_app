@@ -1,3 +1,4 @@
+import type { RefObject } from 'react';
 import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
@@ -164,4 +165,55 @@ export function useTrackOnScroll(): boolean {
   }, [scrollUpTimeout]);
 
   return trackOnScroll;
+}
+
+/**
+ * Custom hook to track outside click for closing modal
+ * @param target
+ * @param callback
+ * @param eventType
+ */
+
+export function useOuterEventHandler(
+  target: RefObject<HTMLElement>,
+  callback: ()=> void,
+  eventType: 'click' | 'touchstart',
+): void {
+  useEffect(() => {
+    const handleOutsideEvent = (event: Event) => {
+      if (target.current && !target.current.contains(event.target as Node)) {
+        callback();
+      }
+    };
+
+    document.addEventListener(eventType, handleOutsideEvent as EventListener);
+    return () => {
+      document.removeEventListener(eventType, handleOutsideEvent as EventListener);
+    };
+  }, [target, callback, eventType]);
+}
+
+/**
+* A custom hook that provides a debounced version of a callback function.
+*
+* @param callback - The callback function to be debounced.
+* @param delay - The delay in milliseconds before the callback is executed.
+* @returns A debounced version of the callback function.
+*/
+
+export function useDebounce(
+  callback: (
+    ...args: string[])=> void,
+  delay: number,
+) {
+  const timeout = useRef<NodeJS.Timeout | null>(null);
+
+  return (...args: string[]) => {
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+    }
+    timeout.current = setTimeout(() => {
+      callback(...args);
+    }, delay);
+  };
 }

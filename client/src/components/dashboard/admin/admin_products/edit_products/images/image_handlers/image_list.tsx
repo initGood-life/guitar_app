@@ -28,7 +28,7 @@ const ProductImageList: FC<{
       <img
         src={img}
         alt={data?.model}
-        className="h-full w-full max-w-xl cursor-pointer rounded-lg object-cover object-center"
+        className="size-full max-h-[400px] max-w-xl cursor-pointer rounded-lg object-cover object-center"
       />
       <AnimatePresence>
         {showDelete.status && showDelete.src === img && (

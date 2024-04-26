@@ -3,7 +3,7 @@ import {
   Select,
 } from '@material-tailwind/react';
 import type { ChangeEvent } from 'react';
-import { createElement, useCallback } from 'react';
+import { createElement, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@/redux.hooks';
@@ -11,8 +11,10 @@ import { setErrorState } from '@/store/features/error.handler';
 import type {
   InputFieldProps,
   SelectFieldProps,
+  TextAreaFieldProps,
   WavesButtonProps,
 } from '@/types/utils.types';
+
 /**
  * Reusable button Component with link support
  */
@@ -148,8 +150,47 @@ const SelectField: React.FC<SelectFieldProps> = ({
   );
 };
 
+export const TextAreaField = ({
+  getFieldProps, setFieldValue, errors, touched, field, ...props
+}: TextAreaFieldProps) => {
+  const {
+    cols = 5,
+    rows = 5,
+    placeholder,
+    className,
+  } = props;
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const isError = errors?.[field] && touched?.[field];
+
+  return (
+    <div className="relative h-full">
+      <textarea
+        cols={cols}
+        rows={rows}
+        {...getFieldProps(field)}
+        ref={textAreaRef}
+        placeholder={placeholder}
+        className={`${className} max-h-56 w-full resize-y rounded-lg border border-gray-900 bg-gray-50 p-2 text-xl text-gray-900 ring-gray-600 focus:inset-2 focus:border-gray-600 focus:outline-none focus:ring focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-gray-900`}
+        onChange={async ({ target }) => setFieldValue(field, target.value)}
+        onInput={() => {
+          if (textAreaRef.current) {
+            textAreaRef.current.style.height = 'auto';
+            textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+          }
+        }}
+      />
+
+      {isError && (
+      <span className="pointer-events-none absolute left-3 top-40 max-w-[90%] truncate pt-[0.37rem] text-sm leading-[1.6] text-red-500">
+        {errors[field]}
+      </span>
+      )}
+    </div>
+  );
+};
 export default {
   WavesButton,
   InputField,
   SelectField,
+  TextAreaField,
 };

@@ -96,7 +96,7 @@ const ProductList = memo((): JSX.Element => {
         link="/dashboard/admin/add_product"
       />
       <h1 className="absolute right-40 top-[140px] font-rubik text-4xl font-semibold -tracking-wider text-gray-900">Products Administration</h1>
-      <Card className="relative mb-6 h-full w-full overflow-x-auto">
+      <Card className="relative mb-6 size-full overflow-x-auto">
         <ProductTableContext.Provider value={tableValues}>
           <ProductTable />
         </ProductTableContext.Provider>

@@ -107,6 +107,29 @@ export interface SelectFieldProps {
   | 'red';
 }
 
+export interface TextAreaFieldProps {
+  field: string;
+  errors?: FormikErrors<FormValues>;
+  touched?: FormikTouched<FormValues>;
+  // textAreaRef: React.RefObject<HTMLTextAreaElement>;
+  getFieldProps: (name: string)=> {
+    name: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>)=> void;
+    onBlur: (e: React.FocusEvent<HTMLTextAreaElement>)=> void;
+  };
+  setFieldValue: (
+    field: string,
+    value?: string,
+    shouldValidate?: boolean | undefined
+  )=> Promise<void | FormikErrors<FormValues>>;
+  cols?: number;
+
+  placeholder?: string;
+  rows?: number;
+  className?: string;
+}
+
 export interface PromoTypes {
   title: string;
   description: string;

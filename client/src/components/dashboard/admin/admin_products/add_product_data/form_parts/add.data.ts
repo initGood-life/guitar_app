@@ -15,6 +15,7 @@ export const InitialAddProductValues = {
   description: '',
   price: 0,
   available: 0,
+  countryOfOrigin: '',
   image: [],
   shipping: false,
 };
@@ -23,7 +24,7 @@ export const submitAddProduct = async ({
   values, token, dispatch, addNewProduct,
 }: IAdminAddProductProps) => {
   const {
-    brand, model, description, price, shipping, available, image,
+    brand, model, description, price, shipping, available, image, countryOfOrigin,
   } = values;
 
   try {
@@ -34,6 +35,7 @@ export const submitAddProduct = async ({
       price,
       shipping,
       available,
+      countryOfOrigin,
       image,
       token,
     }).unwrap();
@@ -81,6 +83,10 @@ export const AddProductValidationSchema = Yup.object({
   shipping: Yup
     .boolean()
     .required('Shipping is required'),
+  countryOfOrigin: Yup
+    .string()
+    .required('Country of origin is required')
+    .min(3, 'Country of origin must be at least 3 characters long'),
   image: Yup
     .array().of(Yup.string().url())
     .min(1, 'At least one image is required')

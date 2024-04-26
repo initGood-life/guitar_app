@@ -56,7 +56,7 @@ const Slider = (): JSX.Element => (
     {
       sliderItems.map((item) => (
         <SwiperSlide key={item.id}>
-          <div className="relative mt-[88px] h-full w-full">
+          <div className="relative mt-[88px] size-full">
             <img
               className="h-screen w-screen object-cover"
               src={item.img}

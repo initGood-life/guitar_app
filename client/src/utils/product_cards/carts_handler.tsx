@@ -1,4 +1,4 @@
-import CloseIcon from '@/icons/close_FILL0_wght400_GRAD0_opsz24.svg?react';
+import CloseIcon from '@/icons/close_icon.svg?react';
 import { useAppDispatch, useAppSelector } from '@/redux.hooks';
 import { updateCart } from '@/store/features/item.counter.slice';
 import type { CartProps } from '@/types/home.types';

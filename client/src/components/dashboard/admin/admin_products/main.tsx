@@ -61,7 +61,7 @@ const AdminProducts: FC<AuthStateWithUser> = ({ userData }): JSX.Element => {
           page,
           limit: 5,
           price: [100, 6000],
-          brand: ['65822c0d0a0626090b86a2df', '656cf57837efc2434af973c4', '656cf3a8d0ce892d20b2768c', '65822d308d5501924942daa3'],
+          brand: ['65822c0d0a0626090b86a2df', '656cf57837efc2434af973c4', '656cf3a8d0ce892d20b2768c', '661bd0d534bb3826ab89c0c3', '656cf5bd37efc2434af973c7', '65e781b8260638a239ac5e59'],
           keyword: '',
         }).unwrap();
       } catch (err) {

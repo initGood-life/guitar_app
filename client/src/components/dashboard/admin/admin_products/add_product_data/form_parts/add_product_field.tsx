@@ -2,11 +2,13 @@ import { Button } from '@material-tailwind/react';
 import { Form } from 'formik';
 import type { FC, JSX } from 'react';
 import {
-  useContext, useMemo, useState,
+  useContext, useMemo,
+  useState,
 } from 'react';
 
 import { AddProductContext, SelectBrandContext } from '@/types/context/admin.context';
 import { Utils } from '@/utils';
+import { TextAreaField } from '@/utils/utils';
 
 import ImageDropDialog from '../upload/dialog_uploader';
 import { SelectBrand } from './brand_options';
@@ -32,8 +34,8 @@ export const AddProductForm: FC = (): JSX.Element => {
       onSubmit={props.handleSubmit}
       className="mx-auto flex h-fit max-w-5xl flex-col gap-8 rounded-lg bg-white px-8 py-12 shadow-md shadow-gray-900"
     >
-      <div className="flex w-[900px] flex-row items-center justify-between gap-10">
-        <div className="flex w-full flex-col gap-8 rounded-l p-5">
+      <div className="flex w-[900px] flex-row items-center justify-between gap-5">
+        <div className="flex h-[400px] w-full flex-col gap-8 rounded-l p-5">
           <InputField
             field="model"
             type="text"
@@ -45,25 +47,22 @@ export const AddProductForm: FC = (): JSX.Element => {
             getFieldProps={props.getFieldProps}
           />
 
-          <InputField
-            field="description"
-            hardcodedLabel="Product Description"
-            type="text"
-            variant="static"
-            size="lg"
-            color="gray"
-            errors={errors}
-            touched={touched}
-            isSubmitting={props.isSubmitting}
-            getFieldProps={props.getFieldProps}
-          />
-
           <SelectBrandContext.Provider value={selectBrandProps}>
             <SelectBrand />
           </SelectBrandContext.Provider>
+
+          <TextAreaField
+            field="description"
+            placeholder="Product Description"
+            rows={2}
+            errors={errors}
+            touched={touched}
+            setFieldValue={props.setFieldValue}
+            getFieldProps={props.getFieldProps}
+          />
         </div>
 
-        <hr className="h-72 w-0.5 bg-gray-400/90" />
+        <hr className="h-96 w-0.5 bg-gray-400/90" />
 
         <div className="flex h-fit w-full flex-col gap-8 rounded-l p-5">
           <InputField
@@ -87,6 +86,20 @@ export const AddProductForm: FC = (): JSX.Element => {
             isSubmitting={props.isSubmitting}
             getFieldProps={props.getFieldProps}
           />
+
+          <InputField
+            field="countryOfOrigin"
+            hardcodedLabel="Country of Origin"
+            type="text"
+            variant="static"
+            size="lg"
+            color="gray"
+            errors={errors}
+            touched={touched}
+            isSubmitting={props.isSubmitting}
+            getFieldProps={props.getFieldProps}
+          />
+
           <div className="w-72">
             <SelectField
               label="Is shipping required?"

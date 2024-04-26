@@ -1,4 +1,4 @@
-import CloseIcon from '@icons/close_FILL0_wght400_GRAD0_opsz24.svg?react';
+import CloseIcon from '@icons/close_icon.svg?react';
 import { Dialog, DialogBody } from '@material-tailwind/react';
 import type { FC } from 'react';
 
@@ -20,7 +20,7 @@ const ImageDropDialog: FC<IImageDialogProps> = (
     }}
   >
     <CloseIcon
-      className="absolute right-2 top-2 h-8 w-8 cursor-pointer fill-gray-500 transition-colors duration-200 ease-out hover:fill-red-500"
+      className="absolute right-2 top-2 size-8 cursor-pointer fill-gray-500 transition-colors duration-200 ease-out hover:fill-red-500"
       onClick={() => setIsImageUploading(false)}
     />
     <DialogBody>

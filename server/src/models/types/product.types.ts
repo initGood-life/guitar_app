@@ -15,6 +15,7 @@ interface IProduct {
   item_sold: number;
   shipping: boolean;
   image: string[];
+  countryOfOrigin: string;
   date: Date;
   objectID?: string;
 }

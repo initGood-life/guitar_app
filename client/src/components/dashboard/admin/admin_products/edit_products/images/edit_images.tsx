@@ -59,8 +59,19 @@ const EditImages = () => {
 
   if (data?.image.length === 0) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <h1 className="text-xl text-gray-900">No images available for this product</h1>
+      <div className="flex h-screen w-full flex-col items-center justify-center">
+        <h1 className="absolute top-28 font-rubik text-2xl font-bold text-gray-900">
+          No image available for the guitar.
+        </h1>
+        <p className="mt-4 text-base font-light text-gray-600">
+          Please upload an image to showcase this product and enhance its
+          appeal to potential customers.
+        </p>
+        <DropImageField
+          data={data}
+          handleAddImage={handleAddImage}
+          additionalClass="w-[1000px] h-[500px] rounded-lg"
+        />
       </div>
     );
   }
@@ -69,7 +80,7 @@ const EditImages = () => {
     <div className="flex h-fit w-screen flex-col items-center justify-center">
       <h1 className="p-3 text-center font-rubik text-4xl font-bold">Manage Product Images</h1>
 
-      <div className="mt-auto grid grid-cols-5 gap-4">
+      <div className="mt-auto grid h-fit grid-cols-5 gap-4">
         {data?.image?.map((img) => (
           <ProductImageList
             img={img}
@@ -82,6 +93,7 @@ const EditImages = () => {
 
         <DropImageField data={data} handleAddImage={handleAddImage} />
       </div>
+
       {showDialog && showDialogImageToRemove()}
     </div>
   );

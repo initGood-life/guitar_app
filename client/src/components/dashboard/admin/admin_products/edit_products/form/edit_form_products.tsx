@@ -9,6 +9,7 @@ import { useAppDispatch } from '@/redux.hooks';
 import { useEditProductMutation, useLazyFetchProductsByIdQuery } from '@/store/api/product.api';
 import type { EditProductProps, FulfilledData } from '@/types/admin.types';
 import { Loader, Utils } from '@/utils';
+import { TextAreaField } from '@/utils/utils';
 
 import { EditProductValidation, submitEditProduct } from './edit.data';
 import { BrandSelector } from './select_brand';
@@ -54,6 +55,7 @@ const EditProduct = (): JSX.Element => {
         description: data.description ?? '',
         price: data.price ?? 0,
         available: data.available ?? false,
+        countryOfOrigin: data.countryOfOrigin ?? '',
         shipping: data.shipping ?? 0,
       }}
       validationSchema={EditProductValidation}
@@ -63,25 +65,12 @@ const EditProduct = (): JSX.Element => {
         <Form
           noValidate
           onSubmit={formik.handleSubmit}
-          className="flex h-fit max-w-5xl flex-col gap-8 rounded-lg bg-gray-900 px-8 py-12 shadow-md shadow-gray-900"
+          className="flex h-[600px] max-w-5xl flex-col gap-8 rounded-lg bg-gray-900 px-8 py-12 shadow-md shadow-gray-900"
         >
           <div className="flex w-[900px] flex-row items-center justify-between gap-10">
-            <div className="flex w-full flex-col gap-8 p-5">
+            <div className="flex h-[400px] w-full flex-col gap-10 p-5">
               <InputField
                 field="model"
-                type="text"
-                variant="static"
-                color="white"
-                required
-                errors={formik.errors}
-                touched={formik.touched}
-                isSubmitting={formik.isSubmitting}
-                getFieldProps={formik.getFieldProps}
-              />
-
-              <InputField
-                field="description"
-                hardcodedLabel="Product Description"
                 type="text"
                 variant="static"
                 color="white"
@@ -99,11 +88,20 @@ const EditProduct = (): JSX.Element => {
                 getFieldProps={formik.getFieldProps}
               />
 
+              <TextAreaField
+                field="description"
+                placeholder="Product Description"
+                errors={formik.errors}
+                touched={formik.touched}
+                // textAreaRef={textareaRef}
+                setFieldValue={formik.setFieldValue}
+                getFieldProps={formik.getFieldProps}
+              />
             </div>
 
-            <hr className="h-72 w-0.5 bg-gray-400/90" />
+            <hr className="h-96 w-0.5 bg-gray-400/90" />
 
-            <div className="flex h-fit w-full flex-col gap-8 p-5">
+            <div className="flex h-fit w-full flex-col gap-10 p-5">
               <InputField
                 field="price"
                 type="number"
@@ -122,6 +120,19 @@ const EditProduct = (): JSX.Element => {
                 variant="static"
                 color="white"
                 required
+                errors={formik.errors}
+                touched={formik.touched}
+                isSubmitting={formik.isSubmitting}
+                getFieldProps={formik.getFieldProps}
+              />
+
+              <InputField
+                field="countryOfOrigin"
+                hardcodedLabel="Country of Origin"
+                type="text"
+                variant="static"
+                size="lg"
+                color="white"
                 errors={formik.errors}
                 touched={formik.touched}
                 isSubmitting={formik.isSubmitting}
@@ -149,12 +160,12 @@ const EditProduct = (): JSX.Element => {
             </div>
           </div>
 
-          <div className="flex flex-row items-center justify-center gap-6">
+          <div className="flex flex-row items-center justify-center">
             <Button
               color="white"
               type="submit"
               loading={formik.isSubmitting}
-              className="mx-auto mt-2 block rounded-md bg-white px-6 py-3 text-xl font-medium capitalize tracking-wide text-gray-900 transition-colors duration-300 hover:bg-gray-400"
+              className="mx-auto mt-10 block rounded-md bg-white px-6 py-3 text-xl font-medium capitalize tracking-wide text-gray-900 transition-colors duration-300 hover:bg-gray-400"
             >
               Edit Product
             </Button>
@@ -162,7 +173,7 @@ const EditProduct = (): JSX.Element => {
             <WavesButton
               isLinked
               link={`/dashboard/admin/prod_images/${id}`}
-              styled="mx-auto mt-2 block rounded-md bg-white px-6 py-3 text-xl font-medium capitalize tracking-wide text-gray-900 transition-colors duration-300 hover:bg-gray-400"
+              styled="mx-auto mt-10 block rounded-md bg-white px-6 py-3 text-xl font-medium capitalize tracking-wide text-gray-900 transition-colors duration-300 hover:bg-gray-400"
             >
               Manage Images
             </WavesButton>

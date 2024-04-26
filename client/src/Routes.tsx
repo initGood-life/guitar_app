@@ -14,8 +14,11 @@ import { setUserInfo } from './store/features/user.info';
 
 const Auth = lazy(() => import('@components/auth'));
 const Dashboard = lazy(() => import('@components/dashboard'));
+const ShopGuitars = lazy(() => import('@components/shop'));
 
-const { DASHBOARD, LOGIN, HOME } = RouteName;
+const {
+  DASHBOARD, LOGIN, HOME, SHOP,
+} = RouteName;
 
 const SetRoutes = (): React.JSX.Element => {
   const dispatch = useAppDispatch();
@@ -86,12 +89,22 @@ const SetRoutes = (): React.JSX.Element => {
         )}
       />
 
+      <Route
+        path={SHOP}
+        element={(
+          <>
+            <Header />
+            <Suspense fallback={<Loader />}>
+              <ErrorBoundary>
+                <ShopGuitars />
+              </ErrorBoundary>
+            </Suspense>
+            <Footer />
+          </>
+        )}
+      />
+
     </Routes>
   );
 };
 export default SetRoutes;
-
-// npm run dev -- --host
-
-// user: 1. vladvip8acc041022@gmail.com jQts88
-// user: 2. darknamexx@gmail.com apisF45

@@ -2,7 +2,8 @@ import type { ProductsResponse } from '@/store/types/api_types/product.types';
 
 export interface ProductType {
   product: ProductsResponse;
-  title: string;
+  searchKeyword?: string;
+  title?: string;
 }
 export interface ProductListProps {
   products: ProductsResponse[];

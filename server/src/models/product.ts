@@ -22,7 +22,7 @@ const ProductSchema = new Schema<IProduct>({
     required: [true, 'Please provide a description for the product!'],
     trim: true,
     minlength: 3,
-    maxlength: 250,
+    maxlength: 500,
   },
   price: {
     type: Number,
@@ -53,6 +53,13 @@ const ProductSchema = new Schema<IProduct>({
     type: [String],
     required: [true, 'Please provide an image for the product!'],
     default: [],
+  },
+  countryOfOrigin: {
+    type: String,
+    required: [true, 'Please provide a country of origin for the product!'],
+    trim: true,
+    minlength: 3,
+    maxlength: 50,
   },
   date: {
     type: Date,

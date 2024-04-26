@@ -9,7 +9,7 @@ export const submitEditProduct = async ({
   values, id, token, dispatch, editProductById,
 }: HandleSubmitEditProduct) => {
   const {
-    brand, model, description, price, shipping, available,
+    brand, model, description, price, shipping, available, countryOfOrigin,
   } = values;
 
   try {
@@ -20,6 +20,7 @@ export const submitEditProduct = async ({
       price,
       shipping,
       available,
+      countryOfOrigin,
       token,
       _id: id,
     }).unwrap();
@@ -67,4 +68,8 @@ export const EditProductValidation = Yup.object({
   shipping: Yup
     .boolean()
     .required('Shipping is required'),
+  countryOfOrigin: Yup
+    .string()
+    .required('Country of origin is required')
+    .min(3, 'Country of origin must be at least 3 characters long'),
 });
