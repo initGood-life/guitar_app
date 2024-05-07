@@ -22,6 +22,7 @@ export interface FilterProdState {
 
 interface FilterProps {
   filters: FilterProdState;
+  filtersLoadingPromises?: ()=> Promise<void>
 }
 
 export interface BrandFilterProps extends FilterProps {
@@ -32,6 +33,7 @@ export interface BrandFilterProps extends FilterProps {
 }
 
 export interface KeywordSearchProps extends FilterProps {
+  productRef?: React.RefObject<HTMLDivElement>;
   filterByKeyword: (keyword: string)=> void;
   resetKeywordFilter: ()=> void;
 }
@@ -42,7 +44,7 @@ export interface PriceFilterProps extends FilterProps {
 }
 
 export interface CountryOfOriginSelectorProps extends FilterProps {
-  countryName: string[] | string | undefined;
+  countryName: string[] | undefined;
   filterByCountry: (countryName: string)=> void;
 }
 
@@ -56,7 +58,7 @@ export interface FetchProductsQuery {
   fetchPaginatedProducts: MutationTrigger<MutationDefinition<Partial<PaginateProductsArg>, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, object, FetchBaseQueryMeta>, never, PaginateProductsResponse, 'productApi'>>;
   setProducts: (value: SetStateAction<ProductsResponse[] | undefined>)=> void
   setAllFilters: Dispatch<SetStateAction<FilterProdState>>
-  setCountryName: Dispatch<SetStateAction<string | string[] | undefined>>
+  setCountryName: Dispatch<SetStateAction<string[] | undefined>>
   brands: BrandResponse | undefined;
 }
 

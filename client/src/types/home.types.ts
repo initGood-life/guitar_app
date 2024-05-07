@@ -11,6 +11,7 @@ export interface ProductListProps {
 }
 
 export interface CartProps {
+  product: ProductsResponse;
   itemId: string;
   quantity: number
   closeAddCart: ()=> void;

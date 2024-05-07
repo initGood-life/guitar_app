@@ -1,21 +1,21 @@
 import ResetKeyIcon from '@icons/close_icon.svg?react';
 import SearchIcon from '@icons/dashboard_icons/search.svg?react';
-import type { ChangeEvent, FC, JSX } from 'react';
+import type { ChangeEvent, JSX } from 'react';
+import { useContext } from 'react';
 
-import { useDebounce } from '@/custom/custom.hooks';
-import type { KeywordSearchProps } from '@/types/shop.types';
+import { KeywordSearchContext } from '@/types/context/shop.context';
 
-const KeywordSearch: FC<KeywordSearchProps> = ({
-  filters, filterByKeyword, resetKeywordFilter,
-}): JSX.Element => {
+const KeywordSearch = (): JSX.Element => {
+  const {
+    filterByKeyword, resetKeywordFilter, filters,
+  } = useContext(KeywordSearchContext);
   const { keyword, triggeredFilters } = filters;
-  const debouncedFilterByKeyword = useDebounce((keywords: string) => {
-    filterByKeyword(keywords);
-  }, 300);
+  const debouncedFilterByKeyword = (keywords: string) => filterByKeyword(keywords);
 
   const handleFilterByKeyword = ({ target }: ChangeEvent<HTMLInputElement>) => {
     debouncedFilterByKeyword(target.value);
   };
+
   return (
     <div className="relative w-full">
       <input

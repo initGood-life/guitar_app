@@ -1,10 +1,16 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import {
+  AnimatePresence, LayoutGroup, motion,
+} from 'framer-motion';
 import type { JSX } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 
+import { useScrollOnTop } from '@/custom/custom.hooks';
 import { useGetAllBrandsQuery } from '@/store/api/brand.api';
 import { useFetchPaginatedProductsMutation } from '@/store/api/product.api';
-import type { FilterProdState } from '@/types/shop.types';
+import { KeywordSearchContext } from '@/types/context/shop.context';
+import type { FilterProdState, KeywordSearchProps } from '@/types/shop.types';
 import { Spinner } from '@/utils';
 import { CardBlock } from '@/utils/product_cards/products';
 
@@ -31,7 +37,8 @@ const ShopGuitars = (): JSX.Element => {
   const { data: brands } = useGetAllBrandsQuery({ order: 'desc', limit: 100 });
   const [products, setProducts] = useState(initialProducts?.docs);
   const [allFilters, setAllFilters] = useState<FilterProdState>(initialFilters);
-  const [countryName, setCountryName] = useState<string[] | string | undefined>([]);
+  const [countryName, setCountryName] = useState<string[] | undefined>([]);
+  const [isFiltering, setIsFiltering] = useState(false);
   const stableAllFilters = useMemo(() => allFilters, [allFilters]);
   const brandFilterHandler = useBrandFilterHandler(
     { setAllFilters, stableAllFilters, initialProducts },
@@ -39,6 +46,8 @@ const ShopGuitars = (): JSX.Element => {
   const priceFilterHandler = usePriceFilterHandler({ setAllFilters, stableAllFilters });
   const keywordFilterHandler = useKeywordFilterHandler({ setAllFilters, stableAllFilters });
   const originFilters = useOriginFilterHandler({ setAllFilters, stableAllFilters });
+
+  useScrollOnTop();
 
   useEffect(() => {
     const processPromise = async () => fetchProducts({
@@ -74,8 +83,10 @@ const ShopGuitars = (): JSX.Element => {
       filteredDocs = applyCountryNameFilter(filteredDocs);
 
       setProducts(filteredDocs);
+      setIsFiltering(false);
     } else {
       setProducts(initialProducts?.docs);
+      setIsFiltering(false);
     }
   }, [
     stableAllFilters,
@@ -86,11 +97,20 @@ const ShopGuitars = (): JSX.Element => {
     applyCountryNameFilter,
   ]);
 
+  const filtersLoadingPromises = useCallback(async () => {
+    setIsFiltering(true);
+    await Promise.all([applyBrandFilter, applyCountryNameFilter]);
+  }, [applyBrandFilter, applyCountryNameFilter]);
+
+  const keywordSearchValues: KeywordSearchProps = useMemo(() => ({
+    filters: stableAllFilters, resetKeywordFilter, filterByKeyword,
+  }), [filterByKeyword, stableAllFilters, resetKeywordFilter]);
+
   if (isError) {
     return <div>An error occurred</div>;
   }
 
-  if (isLoading) {
+  if (isFiltering || isLoading) {
     return <Spinner />;
   }
 
@@ -101,12 +121,9 @@ const ShopGuitars = (): JSX.Element => {
 
         <hr className="my-2 h-1 w-full bg-gray-900" />
         {/* Keyword filter/search */}
-
-        <KeywordSearch
-          filters={stableAllFilters}
-          filterByKeyword={filterByKeyword}
-          resetKeywordFilter={resetKeywordFilter}
-        />
+        <KeywordSearchContext.Provider value={keywordSearchValues}>
+          <KeywordSearch />
+        </KeywordSearchContext.Provider>
 
         {/* Country origin filter */}
 
@@ -114,6 +131,7 @@ const ShopGuitars = (): JSX.Element => {
           filters={stableAllFilters}
           countryName={countryName}
           filterByCountry={filterByCountryName}
+          filtersLoadingPromises={filtersLoadingPromises}
         />
 
         {/* Brand Filter  */}
@@ -124,6 +142,7 @@ const ShopGuitars = (): JSX.Element => {
           filters={stableAllFilters}
           filterByBrandId={filterByBrandId}
           resetBrandFilter={resetBrandFilter}
+          filtersLoadingPromises={filtersLoadingPromises}
         />
 
         {/* Price filter */}
@@ -132,32 +151,36 @@ const ShopGuitars = (): JSX.Element => {
           filters={stableAllFilters}
           filterByPrice={filterByPrice}
           resetPriceFilter={resetPriceFilter}
+          filtersLoadingPromises={filtersLoadingPromises}
         />
 
       </section>
       {/** Products  */}
       <section className="my-10 grid w-fit grid-cols-2 place-items-end gap-20 scroll-smooth">
-        <AnimatePresence mode="popLayout">
-          {products && products?.length > 0 ? products?.map((data) => (
-            <motion.div
-              layout
-              initial={{ opacity: 0, scale: 0.5, y: 50 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.5, y: 50 }}
-              transition={animationTransition}
-              key={data._id}
-            >
-              <CardBlock product={data} searchKeyword={allFilters.keyword} />
-            </motion.div>
-          )) : (
-            <div className="relative left-1/2 top-40 bg-white p-2 text-center font-rubik text-2xl font-bold text-gray-900">
-              No Products Found
-              {' '}
-              <br />
-              Apply other filters to see products.
-            </div>
-          )}
-        </AnimatePresence>
+        <LayoutGroup id="shop-guitars">
+          <AnimatePresence mode="popLayout">
+            {products && products?.length > 0 ? products?.map((data) => (
+              <motion.div
+                layout
+                initial={{ opacity: 0, scale: 0.5, y: 50 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.5, y: 50 }}
+                transition={animationTransition}
+                key={data._id}
+              >
+                <CardBlock product={data} searchKeyword={allFilters.keyword} />
+              </motion.div>
+            )) : (
+              <div className="relative left-1/2 top-40 bg-white p-2 text-center font-rubik text-2xl font-bold text-gray-900">
+                No Products Found
+                {' '}
+                <br />
+                Apply other filters to see products.
+              </div>
+            )}
+          </AnimatePresence>
+        </LayoutGroup>
+
       </section>
     </div>
   );

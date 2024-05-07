@@ -2,7 +2,7 @@ const Spinner = (): JSX.Element => (
   <div className="flex h-[500px] items-center justify-center">
     <div className="grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
       <svg
-        className="h-16 w-16 animate-spin text-white/50"
+        className="size-16 animate-spin text-white/50"
         viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

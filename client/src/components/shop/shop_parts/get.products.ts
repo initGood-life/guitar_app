@@ -17,8 +17,7 @@ const fetchProducts = async ({
     }).unwrap();
 
     setProducts(productResponse.docs);
-
-    const countryNames = getCountryName(productResponse);
+    const countryNames = [...new Set(getCountryName(productResponse))];
     const minPrice = minProductPrice(productResponse);
     const maxPrice = maxProductPrice(productResponse);
 

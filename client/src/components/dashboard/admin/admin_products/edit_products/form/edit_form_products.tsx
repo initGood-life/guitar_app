@@ -27,6 +27,7 @@ const EditProduct = (): JSX.Element => {
   });
   const { data } = product;
   const token = cookies['x-access-token'];
+
   useEffect(() => {
     const getById = async () => {
       const productData = await fetchProductById({ id });
@@ -93,7 +94,6 @@ const EditProduct = (): JSX.Element => {
                 placeholder="Product Description"
                 errors={formik.errors}
                 touched={formik.touched}
-                // textAreaRef={textareaRef}
                 setFieldValue={formik.setFieldValue}
                 getFieldProps={formik.getFieldProps}
               />

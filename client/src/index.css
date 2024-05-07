@@ -47,18 +47,30 @@
       -webkit-appearance: none;
     }
 
+    input[type='range']::-webkit-slider-thumb {
+      width: 24px;
+      height: 24px;
+    }
+
     :hover::-webkit-slider-thumb {
       border: 2px solid #d9e0e4;
       outline: 2px solid #ffffff;
       outline-offset: 0.125rem;
       border-radius: 100%;
+      height: 28px;
       transition: all 0.2s ease-out;
+    }
+
+    ::-webkit-slider-thumb:active {
+      box-shadow: inset 0 0 3px #373839, 0 0 9px #383839;
+      -webkit-box-shadow: inset 0 0 3px #313539, 0 0 9px #393b3e;
     }
 
     :-webkit-resizer {
       width: 8px;
       height: 8px;
     }
+
     .MTW-select-arrow {
       display: none;
     }
@@ -102,6 +114,10 @@
      }
 
     .filters-title {
-        @apply font-rubik cursor-default text-center text-lg font-bold tracking-wider text-white;
+        @apply text-center text-lg text-white;
+    }
+
+    .common-title {
+        @apply font-rubik cursor-default font-bold tracking-wider;
     }
   }

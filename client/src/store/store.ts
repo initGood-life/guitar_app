@@ -23,7 +23,11 @@ import productSlice from './features/add.item';
 import errorSlice from './features/error.handler';
 import idSlice from './features/id.handler';
 import cardSlice from './features/item.counter.slice';
+import rateIdSlice from './features/rate.item.id';
+import uniqueItemPriceSlice from './features/unique.prices';
 import userInfoSlice from './features/user.info';
+import isRatedSlice from './features/user.item.rate';
+import userRateSlice from './features/user.rate';
 
 const encryptPersist = encryptTransform({
   secretKey: import.meta.env.VITE_REDUX_KEY,
@@ -45,11 +49,15 @@ const persistConfig = {
 const persistStorage = persistReducer(
   persistConfig,
   combineReducers({
+    checkRate: isRatedSlice,
     id: idSlice,
+    rateValue: userRateSlice,
+    ratedId: rateIdSlice,
     error: errorSlice,
     counter: cardSlice,
     product: productSlice,
     userInfo: userInfoSlice,
+    uniqueItemPrice: uniqueItemPriceSlice,
     [productApi.reducerPath]: productApi.reducer,
     [brandApi.reducerPath]: brandApi.reducer,
     [authApi.reducerPath]: authApi.reducer,

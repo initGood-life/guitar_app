@@ -37,7 +37,7 @@ export const CardBlock: React.FC<ProductType> = ({ product, searchKeyword }): JS
   const [showAddCart, setShowAddCart] = useState<boolean>(false);
   const itemsInCart = useAppSelector(selectedItems)
     .find((item) => item.id === product._id);
-  const isItemInCart = itemsInCart?.cartItem ?? 0;
+  const isItemInCart = itemsInCart?.amountItems ?? 0;
   const prevQuantity = usePrevious(isItemInCart, 0) ?? 0;
   const imageSrc = product.image.length !== 0
     ? product.image[0]
@@ -59,7 +59,7 @@ export const CardBlock: React.FC<ProductType> = ({ product, searchKeyword }): JS
       <CardHeader
         shadow={false}
         floated={false}
-        className="h-80 cursor-pointer overflow-hidden shadow-md shadow-blue-gray-900/50 transition-transform duration-500 ease-in-out"
+        className="h-72 cursor-pointer overflow-hidden shadow-md shadow-blue-gray-900/50 transition-transform duration-500 ease-in-out"
       >
         <img
           src={imageSrc}
@@ -92,11 +92,12 @@ export const CardBlock: React.FC<ProductType> = ({ product, searchKeyword }): JS
         <div className="relative">
           {
               showAddCart && isAvailable && (
-                <AddToCartMenu
-                  quantity={product.available}
-                  itemId={product?._id ?? 'no-id'}
-                  closeAddCart={() => handleLeave()}
-                />
+              <AddToCartMenu
+                product={product}
+                quantity={product.available}
+                itemId={product?._id}
+                closeAddCart={handleLeave}
+              />
               )
             }
           {!showAddCart && (

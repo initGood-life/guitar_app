@@ -8,11 +8,12 @@ import { useOuterEventHandler } from '@/custom/custom.hooks';
 import type { CountryOfOriginSelectorProps } from '@/types/shop.types';
 
 const CountryOfOriginSelector: FC<CountryOfOriginSelectorProps> = (
-  { filters, countryName, filterByCountry },
+  {
+    filters, countryName, filterByCountry, filtersLoadingPromises,
+  },
 ): JSX.Element => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showSelected, setShowSelected] = useState(false);
-  const isAllCountriesSelected = filters.countryOrigin === 'all';
 
   const toggleDropDown = () => {
     setShowSelected((prevState) => !prevState);
@@ -23,6 +24,16 @@ const CountryOfOriginSelector: FC<CountryOfOriginSelectorProps> = (
     () => setShowSelected(false),
     'click',
   );
+
+  const handleFilterByCountry = async (country: string) => {
+    filterByCountry(country);
+
+    if (filtersLoadingPromises) {
+      await filtersLoadingPromises();
+
+      setShowSelected(false);
+    }
+  };
 
   const handleKeyUp = (key: string) => {
     if (key === 'Enter') {
@@ -66,16 +77,20 @@ const CountryOfOriginSelector: FC<CountryOfOriginSelectorProps> = (
           aria-hidden="true"
           className="absolute z-10 mt-2 w-80 rounded-md border bg-white shadow-lg ring-gray-600"
         >
-          {[...new Set(countryName)]?.map((country) => (
+          {countryName?.map((country) => (
             <li
               key={country}
               role="option"
               aria-selected={false}
               className="cursor-pointer border-y border-gray-300 p-2 text-lg text-gray-700 transition-colors duration-150 ease-in-out hover:bg-gray-400/60"
-              onClick={() => filterByCountry(country)}
+              onClick={() => handleFilterByCountry(country)}
               onKeyUp={({ key }) => handleKeyUp(key)}
             >
-              <Radio crossOrigin="anonymous" checked={country === filters.countryOrigin} />
+              <Radio
+                readOnly
+                crossOrigin="anonymous"
+                checked={country === filters.countryOrigin}
+              />
               {' '}
               <span className="ml-4">{country}</span>
             </li>
@@ -85,11 +100,12 @@ const CountryOfOriginSelector: FC<CountryOfOriginSelectorProps> = (
             role="option"
             aria-selected={false}
             className="cursor-pointer border-y border-gray-300 p-2 text-lg text-gray-700 transition-colors duration-150 ease-in-out hover:bg-gray-400/60"
-            onClick={() => filterByCountry('all')}
+            onClick={() => handleFilterByCountry('all')}
             onKeyUp={({ key }) => handleKeyUp(key)}
           >
             <Radio
               crossOrigin="anonymous"
+              readOnly
               checked={[...new Set(countryName)].map(
                 (country) => country !== filters.countryOrigin,
               ).every((bool) => bool)}

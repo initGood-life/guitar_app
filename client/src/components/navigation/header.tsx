@@ -19,7 +19,7 @@ const Header = (): JSX.Element => {
   const trackOnScroll = useTrackOnScroll();
   const [handleLogout] = useHandleLogoutMutation();
   const itemsInCart = useAppSelector(selectedItems)
-    .map((item) => item.cartItem)
+    .map((item) => item.amountItems)
     .reduce((a, b) => a + b, 0);
   const isEmptyCookie = JSON.stringify(cookies) === '{}';
 
@@ -78,7 +78,7 @@ const Header = (): JSX.Element => {
           </Link>
           <div className="p-1">
             <Link
-              to="/dashboard/user/cart"
+              to="/product/cart"
               aria-label="My Cart"
               className="mr-2 cursor-pointer py-1 font-rubik text-2xl font-extralight tracking-wide text-blue-gray-200"
             >
@@ -116,7 +116,7 @@ const Header = (): JSX.Element => {
               className="flex cursor-pointer items-center justify-center bg-gray-600 p-2 py-1 transition duration-150 ease-in-out hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 active:bg-gray-800"
             >
               <span className="mr-2 font-rubik text-3xl font-extralight tracking-wide text-gray-900">Log Out</span>
-              <LogoutIcon className="h-10 w-10 fill-gray-900 transition-all duration-300 ease-in-out hover:fill-white" />
+              <LogoutIcon className="size-10 fill-gray-900 transition-all duration-300 ease-in-out hover:fill-white" />
             </button>
           </div>
         )}

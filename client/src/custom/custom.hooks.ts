@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 
 import { useLazyUserAuthStateQuery } from '@/store/api/auth.api';
 import type { AuthState } from '@/types/auth.types';
+import type { FilterProdState } from '@/types/shop.types';
 import type { CookieSetProps, ReactCookieHandler } from '@/types/utils.types';
 
 /**
@@ -216,4 +217,34 @@ export function useDebounce(
       callback(...args);
     }, delay);
   };
+}
+
+/**
+* A custom hook that scrolls the page to the top when
+* the document's scroll height is less than the previous scroll height.
+*
+*/
+
+export function useScrollOnTop(): void {
+  const scrollRef = useRef<number>(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollHeight } = document.documentElement;
+
+      if (scrollHeight < scrollRef.current) {
+        window?.scrollTo({
+          top: 35,
+          behavior: 'smooth',
+        });
+      }
+      scrollRef.current = scrollHeight;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 }

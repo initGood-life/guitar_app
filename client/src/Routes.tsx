@@ -12,6 +12,7 @@ import AuthGuard from './guard/auth.guard';
 import { useAppDispatch } from './redux.hooks';
 import { setUserInfo } from './store/features/user.info';
 
+const ProductCart = lazy(() => import('@components/product'));
 const Auth = lazy(() => import('@components/auth'));
 const Dashboard = lazy(() => import('@components/dashboard'));
 const ShopGuitars = lazy(() => import('@components/shop'));
@@ -83,6 +84,20 @@ const SetRoutes = (): React.JSX.Element => {
             <ErrorBoundary>
               <AuthGuard route={LOGIN}>
                 <Auth />
+              </AuthGuard>
+            </ErrorBoundary>
+          </Suspense>
+        )}
+      />
+
+      <Route
+        path="/product/cart"
+        element={(
+          <Suspense fallback={<Loader />}>
+            <ErrorBoundary>
+              <AuthGuard>
+                <Header />
+                <ProductCart />
               </AuthGuard>
             </ErrorBoundary>
           </Suspense>
